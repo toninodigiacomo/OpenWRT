@@ -8,7 +8,7 @@ link : https://firmware-selector.openwrt.org
 ```
 vi /etc/config/network
 ```
-- Press insert to enter then new value.
+- Press insert to enter a new value.
 - Press Esc to stop editing.
 - Press ```:wq!```to save the modifications.
 
@@ -25,3 +25,17 @@ There are some disadvantages, though. Here are some of them.
   Of course, you we just buy a properly signed certificate for our own openwrt.lan domain and ip address to get rid of the annoying browser warning. We can also just import the self-signed root CA used for certificate creation to your browser certificate store. 
 
 ### How to get rid of LuCI HTTPS certificate warnings
+With these instructions, we can generate our own self-signed certificate, which your browser will accept as valid. 
+One new headache was that, browsers usually only look at one key part of a self-signed certificate, the CN (common name). However, starting with Chrome version 58, it not only looks at the CN (common name) in the certificate, but also at the SAN (subject alt name or DNS name), which makes generating a certificate more complicated than before. We may have even had a certificate we made ourself, that worked until recently, stop working when Chrome 58 was released and most likely automatically updated and installed.
+
+So, to get rid of the annoying “Warning, this is an insecure site, do you want to proceed?” warning messages, and other similar messages from other browsers, we will proceed with the following.
+
+I know it looks long, but it's easy and goes fast. Should take about 10 minutes tops. 
+
+#### Create & Install
+1. Connect via SSH
+  Install the ```openssl-util``` and LuCI ```uhttpd``` packages. This is required to generate a new certificate in the way we want it to be, and to be able to easily tell LuCI how to use it.
+```
+opkg update && opkg install openssl-util luci-app-uhttpd
+```
+2. Create ```/etc/ssl/myconfig.conf``` with the following content:

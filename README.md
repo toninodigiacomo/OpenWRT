@@ -273,6 +273,16 @@ service odhcpd restart
 exit 0
 ```
 
+### Setup AGH through the web interface
+On first time setup the default web interface port is TCP 3000.
+ - Go to http://192.168.1.2:3000/
+ - Setup the Admin Web Interface to listen on 192.168.1.1 at port 81. (Changing the web interface port is optional)
+ - Set DNS server to listen on 192.168.1.2 at port 53.
+ - Create an user and choose a strong password.
+
+
+
+
 
 
 

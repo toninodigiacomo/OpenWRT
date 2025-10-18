@@ -55,7 +55,7 @@ opkg update && opkg install openssl-util luci-app-uhttpd
 nano /etc/ssl/myconfig.conf
 ```
 <details>
-<summary>myconfig.conf</summary>
+<summary>***myconfig.conf***</summary>
 
 ```
 [req]

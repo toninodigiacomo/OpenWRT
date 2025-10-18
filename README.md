@@ -62,7 +62,7 @@ opkg update && opkg install openssl-util luci-app-uhttpd
 nano /etc/ssl/myconfig.conf
 ```
 
-#### myconfig.conf ####
+#### myconfig.conf
 ```
 [req]
 distinguished_name  = req_distinguished_name
@@ -119,3 +119,6 @@ openssl req -x509 -nodes -days 397 -newkey ec:<(openssl ecparam -name prime256v1
 /etc/init.d/uhttpd restart
 ```
 
+### Resize storage on OpenWrt Raspberry Pi
+1. To resize storage on Raspberry Pi, internet access is required to download additional software.
+2. **ssh** in the openwrt device ```ssh root

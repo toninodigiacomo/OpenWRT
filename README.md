@@ -44,7 +44,7 @@ So, to get rid of the annoying “Warning, this is an insecure site, do you want
 
 I know it looks long, but it's easy and goes fast. Should take about 10 minutes tops. 
 
-#### Create & Install
+### Create & Install
 1. Connect via SSH
   Install the ```openssl-util``` and LuCI ```uhttpd``` packages. This is required to generate a new certificate in the way we want it to be, and to be able to easily tell LuCI how to use it.
 ```
@@ -55,9 +55,9 @@ opkg update && opkg install openssl-util luci-app-uhttpd
 nano /etc/ssl/myconfig.conf
 ```
 <details>
-<summary>myconfig.conf</summary>myconfig.conf
-```
-[req]
+<summary>myconfig.conf</summary>
+
+```[req]
 distinguished_name  = req_distinguished_name
 x509_extensions     = v3_req
 prompt              = no
@@ -80,9 +80,9 @@ basicConstraints    = CA:true
 [alt_names]
 DNS.1               = luci.openwrt
 IP.1                = 192.168.1.1
-
 ```
 </details>
+
 
 3. We can edit the values for C (country), ST (state), L (location), O (organization), OU (organization unit) to whatever we want.
  - It's extremely important the values for ***CN*** and ***DNS.1*** match, and also that ***IP.1*** has the correct private IP address for the device.

@@ -119,7 +119,7 @@ openssl req -x509 -nodes -days 397 -newkey ec:<(openssl ecparam -name prime256v1
 /etc/init.d/uhttpd restart
 ```
 
-### Resize storage on OpenWrt Raspberry Pi
+## Resize storage on OpenWrt Raspberry Pi
 1. To resize storage on Raspberry Pi, internet access is required to download additional software.
 2. **ssh** in the openwrt device ```ssh root@192.168.1.2```
 3. Install the required packages
@@ -141,3 +141,10 @@ fsck.ext4 /dev/mmcblk0p2
 ```
 (This might probably fail, doesn't seem to affect anything!)
  - Reboot
+7. Resize the f2fs filesystem
+```
+resize2fs /dev/mmcblk0p2
+```
+8. Check new root partition size with ```lsblk```
+
+## OpenWrt as Docker container host

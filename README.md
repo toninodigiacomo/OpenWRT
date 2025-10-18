@@ -167,4 +167,15 @@ opkg install luci-app-dockerman
 > [!NOTE]
 > This package will also install dockerd and docker-compose as dependencies. It can work with dockerd on local and remote hosts. The default folder for docker in dockerman is **/opt/docker/** so mount your storage at **/opt** or change the folder in **Docker > Overview > Docker Root Dir** then restart the dockerd service.
 
-## Adding a USB Drive & Creating Samba Shares
+## Adding a USB Drive and Creating Samba Shares
+
+
+
+
+
+
+## Ressources and links
+https://openwrt.org
+https://www.makerspace-online.com/openwrt-on-a-pi
+https://thepihut.com/blogs/raspberry-pi-tutorials/installing-openwrt-on-raspberry-pi-5
+https://paul-mackinnon.medium.com/openwrt-raspberry-pi-docker-vlan-project-9cb1db10684c

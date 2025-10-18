@@ -12,6 +12,18 @@ vi /etc/config/network
 - Press Esc to stop editing.
 - Press ```:wq!```to save the modifications.
 
+```
+config interface 'lan'
+        option device 'br-lan'
+        option proto 'static'
+        option ipaddr '192.168.1.2'
+        option netmask '255.255.255.0'
+        option ip6assign '60'
+        option gateway '192.168.1.1'
+        list dns '192.168.1.1'
+        option broadcast '192.168.1.255'
+```
+
 ## Securing OpenWrt
 By default, OpenWrt has no password set for the default root user, and whilst on a local network that might not always be critical, it’s best to set a password and take a few steps to keep things secure.
 
@@ -39,3 +51,34 @@ I know it looks long, but it's easy and goes fast. Should take about 10 minutes 
 opkg update && opkg install openssl-util luci-app-uhttpd
 ```
 2. Create ```/etc/ssl/myconfig.conf``` with the following content:
+```
+nano /etc/ssl/myconfig.conf
+```
+
+myconfig.conf
+```
+[req]
+distinguished_name  = req_distinguished_name
+x509_extensions     = v3_req
+prompt              = no
+string_mask         = utf8only
+     
+[req_distinguished_name]
+C                   = US
+ST                  = VA
+L                   = SomeCity
+O                   = OpenWrt
+OU                  = Home Router
+CN                  = luci.openwrt
+
+[v3_req]
+keyUsage            = nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage    = serverAuth
+subjectAltName      = @alt_names
+basicConstraints    = CA:true
+
+[alt_names]
+DNS.1               = luci.openwrt
+IP.1                = 192.168.1.1
+
+```

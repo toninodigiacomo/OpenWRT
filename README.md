@@ -57,7 +57,8 @@ nano /etc/ssl/myconfig.conf
 <details>
 <summary>myconfig.conf</summary>
 
-```[req]
+```
+[req]
 distinguished_name  = req_distinguished_name
 x509_extensions     = v3_req
 prompt              = no

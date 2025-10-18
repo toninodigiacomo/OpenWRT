@@ -92,6 +92,7 @@ IP.1                = 192.168.1.1
 4. Save the file and navigate to /etc/ssl ```cd /etc/ssl```
    
 5. Then issue the following command:
+
 ```openssl req -x509 -nodes -days 397 -newkey rsa:2048 -keyout mycert.key -out mycert.crt -config myconfig.conf```
 
 

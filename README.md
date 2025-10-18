@@ -55,7 +55,7 @@ opkg update && opkg install openssl-util luci-app-uhttpd
 nano /etc/ssl/myconfig.conf
 ```
 
-myconfig.conf
+___myconfig.conf___
 ```
 [req]
 distinguished_name  = req_distinguished_name

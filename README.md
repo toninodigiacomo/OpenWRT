@@ -172,9 +172,9 @@ AdGuard Home (AGH) is a free and open source network-wide advertising and tracke
 In addition, AdGuard Home also offers DNS encryption features such as DNS over TLS (DoT) and DNS over HTTPS (DoH) built-in without any additional packages needed. 
 
 #### DNS latency/performance
-For the best performance and lowest latency on DNS requests, AGH should be the primary DNS resolver in the DNS chain. If we currently have dnsmasq or unbound installed, we should move these services to an alternative port and have AGH use DNS port 53 with upstream DNS resolvers of the choice configured. 
+For the best performance and lowest latency on DNS requests, AGH should be the primary DNS resolver in the DNS chain. If we currently have dnsmasq or unbound installed, we should move these services to an alternative port and have AGH use DNS port 53 with upstream DNS resolvers of the choice configured.
 This wiki recommends keeping dnsmasq/unbound as the local/PTR resolver for Reverse DNS.
-The rationale for this is due to resolvers like dnsmasq forking each DNS request when AGH is set as an upstream, this will have an impact on DNS latency which is can be viewed in the AGH dashboard. 
+The rationale for this is due to resolvers like dnsmasq forking each DNS request when AGH is set as an upstream, this will have an impact on DNS latency which is can be viewed in the AGH dashboard.
 We will also not benefit from being able to see the DNS requests made by each client if AGH is not the primary DNS resolver as all traffic will appear from the router.
 
 > [!IMPORTANT]

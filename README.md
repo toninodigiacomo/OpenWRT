@@ -31,10 +31,10 @@ By default, OpenWrt has no password set for the default root user, and whilst on
 The main advantage of HTTPS is a standardized protocol for securing HTTP connection. To access an HTTPS page is just typing https://openwrt.lan/ instead of http://openwrt.lan/. It's simple. Just make sure that luci-ssl and its dependencies are installed.
 There are some disadvantages, though. Here are some of them.
 1. External libraries makes a bloated installation.
-  On systems with just 4 MB of flash, it's not possible to enable HTTPS for LuCI web interface. Why? Because with TLS libraries integrated, the resulting image doesn't fit 4 MB of flash.
+        On systems with just 4 MB of flash, it's not possible to enable HTTPS for LuCI web interface. Why? Because with TLS libraries integrated, the resulting image doesn't fit 4 MB of flash.
 2. Browser warning on non-properly signed certificate.
-  Well, this is a good browser feature. Unless the self signed root CA has been imported to the browser, this warning creeps you out! Why bother with commercial CA when our need is just securing our own router management interface for our own use?
-  Of course, you we just buy a properly signed certificate for our own openwrt.lan domain and ip address to get rid of the annoying browser warning. We can also just import the self-signed root CA used for certificate creation to your browser certificate store. 
+        Well, this is a good browser feature. Unless the self signed root CA has been imported to the browser, this warning creeps you out! Why bother with commercial CA when our need is just securing our own router management interface for our own use?
+        Of course, you we just buy a properly signed certificate for our own openwrt.lan domain and ip address to get rid of the annoying browser warning. We can also just import the self-signed root CA used for certificate creation to your browser certificate store. 
 
 ### How to get rid of LuCI HTTPS certificate warnings
 With these instructions, we can generate our own self-signed certificate, which your browser will accept as valid. 
@@ -82,3 +82,7 @@ DNS.1               = luci.openwrt
 IP.1                = 192.168.1.1
 
 ```
+3. We can edit the values for C (country), ST (state), L (location), O (organization), OU (organization unit) to whatever we want.
+        It's extremely important the values for ***CN*** and DNS.1 match, and also that IP.1 has the correct private IP address for the device.
+        Some of you might have a different IP, or you might access it via a hostname; the hostname should go in both CN and DNS.1 fields. The correct private IP address should go into IP.1.
+

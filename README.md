@@ -173,8 +173,11 @@ In addition, AdGuard Home also offers DNS encryption features such as DNS over T
 
 #### DNS latency/performance
 For the best performance and lowest latency on DNS requests, AGH should be the primary DNS resolver in the DNS chain. If we currently have dnsmasq or unbound installed, we should move these services to an alternative port and have AGH use DNS port 53 with upstream DNS resolvers of the choice configured.
+
 This wiki recommends keeping dnsmasq/unbound as the local/PTR resolver for Reverse DNS.
+
 The rationale for this is due to resolvers like dnsmasq forking each DNS request when AGH is set as an upstream, this will have an impact on DNS latency which is can be viewed in the AGH dashboard.
+
 We will also not benefit from being able to see the DNS requests made by each client if AGH is not the primary DNS resolver as all traffic will appear from the router.
 
 > [!IMPORTANT]
@@ -193,21 +196,23 @@ We can tweak logging to keep things smaller if required.
 
 #### Query/statistics logging
 One of the main benefits of AGH is the detailed query and statistics data provided, however for many routers having long retention periods for this data can cause issues (see flash/storage space requirements). 
+
 If we are using the default tmpfs storage, we should set a relatively short retention period or disable logging altogether. If we want to have longer retention periods for query/statistics data, consider moving the storage directory to outside the routers flash space.
 
 ### Installation
 Since 21.02, there is a official AdGuard Home **package** which can be installed through opkg.
+
 Required dependencies (ca-bundle) are automatically resolved and installed when using the official package.
 ```
 opkg update && opkg install adguardhome
 ```
 
 The official OpenWrt package uses the following paths and directories by default:
-    *The AdGuardHome application will be installed to ***/usr/bin/AdGuardHome***.
-    The main ***adguardhome.yaml*** configuration file is stored at ***/etc/adguardhome.yaml***.
-    The default working directory is ***/var/adguardhome*** (By default /var is a symlink to /tmp).
-    The working directory can be configured in ***/etc/config/adguardhome***
-    An ***init.d*** script is provided at ***/etc/init.d/adguardhome***.*
+ *The AdGuardHome application will be installed to ***/usr/bin/AdGuardHome***.*
+ *The main ***adguardhome.yaml*** configuration file is stored at ***/etc/adguardhome.yaml***.*
+ *The default working directory is ***/var/adguardhome*** (By default /var is a symlink to /tmp).*
+ *The working directory can be configured in ***/etc/config/adguardhome****
+ *An ***init.d*** script is provided at ***/etc/init.d/adguardhome***.*
     
 
 The default configured working directory will mean query logs and statistics will be lost on a reboot. To avoid this you should configure a persistent storage path such as /opt or /mnt with external storage and update the working directory accordingly.

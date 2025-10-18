@@ -208,20 +208,19 @@ opkg update && opkg install adguardhome
 ```
 
 The official OpenWrt package uses the following paths and directories by default:
- *The AdGuardHome application will be installed to ***/usr/bin/AdGuardHome***.*
- *The main ***adguardhome.yaml*** configuration file is stored at ***/etc/adguardhome.yaml***.*
- *The default working directory is ***/var/adguardhome*** (By default /var is a symlink to /tmp).*
- *The working directory can be configured in ***/etc/config/adguardhome****
- *An ***init.d*** script is provided at ***/etc/init.d/adguardhome***.*
+ - *The AdGuardHome application will be installed to ***/usr/bin/AdGuardHome***.*
+ - *The main ***adguardhome.yaml*** configuration file is stored at ***/etc/adguardhome.yaml***.*
+ - *The default working directory is ***/var/adguardhome*** (By default /var is a symlink to /tmp).*
+ - *The working directory can be configured in ***/etc/config/adguardhome****
+ - *An ***init.d*** script is provided at ***/etc/init.d/adguardhome***.*
     
-
 The default configured working directory will mean query logs and statistics will be lost on a reboot. To avoid this you should configure a persistent storage path such as /opt or /mnt with external storage and update the working directory accordingly.
 
 To have AdGuard Home automatically start on boot and to start the service:
-
+```
 service adguardhome enable
 service adguardhome start
-
+```
 
 
 

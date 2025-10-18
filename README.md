@@ -28,7 +28,7 @@ config interface 'lan'
 ## Installing Software
 The default OpenWrt installation is extremely bare, so we need to install some basic packages from the web interface or at the command line with the OpenWrt opkg package management tool:
 ```
-opkg update && opkg install nano
+opkg update && opkg install nano luci-app-ttyd bash python3 python3-pip
 ```
 
 ## Securing OpenWrt
@@ -141,10 +141,30 @@ fsck.ext4 /dev/mmcblk0p2
 ```
 (This might probably fail, doesn't seem to affect anything!)
  - Reboot
-7. Resize the f2fs filesystem
+7. Resize the **f2fs** filesystem
 ```
 resize2fs /dev/mmcblk0p2
 ```
 8. Check new root partition size with ```lsblk```
 
 ## OpenWrt as Docker container host
+1. Install ***dockerd***
+```
+opkg update && opkg install dockerd
+```
+> [!NOTE]
+> This daemon provides the Docker Engine API and manages Docker objects such as images, containers, networks, and volumes.
+2. Install ***docker***
+```
+opkg install dockerd
+```
+> [!NOTE]
+> This client is command line based.
+3. For a LuCI web client install ***luci-app-dockerman***
+```
+opkg install luci-app-dockerman
+```
+> [!NOTE]
+> This package will also install dockerd and docker-compose as dependencies. It can work with dockerd on local and remote hosts. The default folder for docker in dockerman is **/opt/docker/** so mount your storage at **/opt** or change the folder in **Docker > Overview > Docker Root Dir** then restart the dockerd service.
+
+## Adding a USB Drive & Creating Samba Shares

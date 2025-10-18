@@ -105,9 +105,9 @@ openssl req -x509 -nodes -days 397 -newkey ec:<(openssl ecparam -name prime256v1
 > https://github.com/cabforum/servercert/blob/90a98dc7c1131eaab01af411968aa7330d315b9b/docs/BR.md?plain=1#L175
 
 6. In ***LuCI***, go to Services → ***uHTTPd***
-    In the field for ***HTTPS Certificate***, select the file ```/etc/ssl/mycert.crt```, or select “Upload file” to transfer it from your PC (mycert.crt)
-    In the field for ***HTTPS Private Key***, select the file ```/etc/ssl/mycert.key```, or select “Upload file” to transfer it from your PC (mycert.key)
-    Hit save and apply.
+ - In the field for ***HTTPS Certificate***, select the file ```/etc/ssl/mycert.crt```, or select “Upload file” to transfer it from your PC (mycert.crt)
+ - In the field for ***HTTPS Private Key***, select the file ```/etc/ssl/mycert.key```, or select “Upload file” to transfer it from your PC (mycert.key)
+ - Hit save and apply.
 
 
 

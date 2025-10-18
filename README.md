@@ -170,6 +170,9 @@ opkg install luci-app-dockerman
 ## AdGuard Home
 AdGuard Home (AGH) is a free and open source network-wide advertising and trackers blocking DNS server. It operates as a DNS server that re-routes tracking domains to a “black hole”, thus preventing devices from connecting to those servers. It is based on software used with public AdGuard DNS servers.
 In addition, AdGuard Home also offers DNS encryption features such as DNS over TLS (DoT) and DNS over HTTPS (DoH) built-in without any additional packages needed. 
+> [!WARNING]
+> Do a backup of the current OpenWrt configuration before starting doing changes.
+
 
 #### DNS latency/performance
 For the best performance and lowest latency on DNS requests, AGH should be the primary DNS resolver in the DNS chain. If we currently have dnsmasq or unbound installed, we should move these services to an alternative port and have AGH use DNS port 53 with upstream DNS resolvers of the choice configured.

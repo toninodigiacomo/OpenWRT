@@ -156,7 +156,7 @@ opkg update && opkg install dockerd
 > This daemon provides the Docker Engine API and manages Docker objects such as images, containers, networks, and volumes.
 2. Install ***docker***
 ```
-opkg install dockerd
+opkg install docker
 ```
 > [!NOTE]
 > This client is command line based.

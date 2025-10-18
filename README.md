@@ -185,10 +185,10 @@ The compiled AdGuardHome binary has grown since the 0.107.0 release. For many ro
 For routers with less flash space, it is highly recommended to use USB or an external storage path to avoid filling up the overlay filesystem. If we have low flash space, we may want to use the custom installation method and have all of the AdGuard Home installation stored outside of the flash storage. Alternatively we can also perform an exroot configuration.
 
 Currently (May 2022 edge build 108) a full install to the /opt folder requires about **100mb** of space.
-    *(70mb) 35mb x2 for the AGH binary and again for when it backups and upgrades. (that's in the agh-backup folder)
-    20mb for filters.
-    2mb - 90 days of statistics.
-    53mb - 7 days of query logs.*
+ - *(70mb) 35mb x2 for the AGH binary and again for when it backups and upgrades. (that's in the agh-backup folder)*
+ - *20mb for filters*
+ - *2mb - 90 days of statistics*
+ - *53mb - 7 days of query logs*
 We can tweak logging to keep things smaller if required.
 
 #### Query/statistics logging

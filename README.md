@@ -177,9 +177,10 @@ This wiki recommends keeping dnsmasq/unbound as the local/PTR resolver for Rever
 The rationale for this is due to resolvers like dnsmasq forking each DNS request when AGH is set as an upstream, this will have an impact on DNS latency which is can be viewed in the AGH dashboard. 
 We will also not benefit from being able to see the DNS requests made by each client if AGH is not the primary DNS resolver as all traffic will appear from the router.
 
-**The install script in the setup section will move dnsmasq to port 54 and set it for AGH to use as local PTR / reverse DNS lookups.**
+> [!IMPORTANT]
+> The install script in the setup section will move dnsmasq to port 54 and set it for AGH to use as local PTR / reverse DNS lookups.
 
-#### Flash/storage space requirements
+#### Flash/storage space requirements
 The compiled AdGuardHome binary has grown since the 0.107.0 release. For many routers this will be quite a significant amount of storage taken up in the overlay filesystem. In addition, features like statistics and query logging will also require further storage space when being written to the working directory. 
 For routers with less flash space, it is highly recommended to use USB or an external storage path to avoid filling up the overlay filesystem. If we have low flash space, we may want to use the custom installation method and have all of the AdGuard Home installation stored outside of the flash storage. Alternatively we can also perform an exroot configuration.
 
@@ -190,7 +191,7 @@ Currently (May 2022 edge build 108) a full install to the /opt folder requires a
     53mb - 7 days of query logs.*
 We can tweak logging to keep things smaller if required.
 
-#### Query/statistics logging
+#### Query/statistics logging
 One of the main benefits of AGH is the detailed query and statistics data provided, however for many routers having long retention periods for this data can cause issues (see flash/storage space requirements). 
 If we are using the default tmpfs storage, we should set a relatively short retention period or disable logging altogether. If we want to have longer retention periods for query/statistics data, consider moving the storage directory to outside the routers flash space.
 

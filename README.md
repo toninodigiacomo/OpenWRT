@@ -23,7 +23,9 @@ config interface 'lan'
         list dns '192.168.1.1'
         option broadcast '192.168.1.255'
 ```
-
+> [!IMPORTANT]
+> Line with option ```ipaddr '192.168.1.2'```is the important one!
+ 
 ## Securing OpenWrt
 By default, OpenWrt has no password set for the default root user, and whilst on a local network that might not always be critical, it’s best to set a password and take a few steps to keep things secure.
 
@@ -86,6 +88,11 @@ IP.1                = 192.168.1.1
  - It's extremely important the values for ***CN*** and ***DNS.1*** match, and also that ***IP.1*** has the correct private IP address for the device.
 > [!CAUTION]
  We might have a different IP, or might access it via a hostname; the hostname should go in both ***CN*** and ***DNS.1*** fields. The correct private IP address should go into ***IP.1***.
+
+4. Save the file and navigate to /etc/ssl ```cd /etc/ssl```
+   
+5. Then issue the following command:
+```openssl req -x509 -nodes -days 397 -newkey rsa:2048 -keyout mycert.key -out mycert.crt -config myconfig.conf```
 
 
 

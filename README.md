@@ -175,7 +175,7 @@ opkg install luci-app-dockerman
 
 
 ## Ressources and links
-https://openwrt.org
-https://www.makerspace-online.com/openwrt-on-a-pi
-https://thepihut.com/blogs/raspberry-pi-tutorials/installing-openwrt-on-raspberry-pi-5
-https://paul-mackinnon.medium.com/openwrt-raspberry-pi-docker-vlan-project-9cb1db10684c
+- https://openwrt.org
+- https://www.makerspace-online.com/openwrt-on-a-pi
+- https://thepihut.com/blogs/raspberry-pi-tutorials/installing-openwrt-on-raspberry-pi-5
+- https://paul-mackinnon.medium.com/openwrt-raspberry-pi-docker-vlan-project-9cb1db10684c

@@ -214,7 +214,7 @@ The official OpenWrt package uses the following paths and directories by default
  - *The working directory can be configured in ***/etc/config/adguardhome****
  - *An ***init.d*** script is provided at ***/etc/init.d/adguardhome***.*
     
-The default configured working directory will mean query logs and statistics will be lost on a reboot. To avoid this you should configure a persistent storage path such as /opt or /mnt with external storage and update the working directory accordingly.
+The default configured working directory will mean query logs and statistics will be lost on a reboot. To avoid this we should configure a persistent storage path such as /opt or /mnt with external storage and update the working directory accordingly.
 
 To have AdGuard Home automatically start on boot and to start the service:
 ```
@@ -222,6 +222,53 @@ service adguardhome enable
 service adguardhome start
 ```
 
+### Setup
+After installing the opkg package, run the following commands through **SSH** to prepare for making AGH the primary DNS resolver. These instructions assume you are using dnsmasq. This will demote dnsmasq to an internal DNS resolver only.
+
+The ports chosen are either well known alternate ports or reasonable compromises. Check with https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers for reserved ports.
+```
+# Get the first IPv4 and IPv6 Address of router and store them in following variables for use during the script.
+NET_ADDR=$(/sbin/ip -o -4 addr list br-lan | awk 'NR==1{ split($4, ip_addr, "/"); print ip_addr[1]; exit }')
+NET_ADDR6=$(/sbin/ip -o -6 addr list br-lan scope global | awk '$4 ~ /^fd|^fc/ { split($4, ip_addr, "/"); print ip_addr[1]; exit }')
+echo "Router IPv4 : ""${NET_ADDR}"
+echo "Router IPv6 : ""${NET_ADDR6}"
+ 
+# 1. Move dnsmasq to port 54.
+# 2. Set local domain to "lan".
+# 3. Add local '/lan/' to make sure all queries *.lan are resolved in dnsmasq;
+# 4. Add expandhosts '1' to make sure non-expanded hosts are expanded to ".lan";
+# 5. Disable dnsmasq cache size as it will only provide PTR/rDNS info, making sure queries are always up to date (even if a device internal IP change after a DHCP lease renew).
+# 6. Disable reading /tmp/resolv.conf.d/resolv.conf.auto file (which are your ISP nameservers by default), you don't want to leak any queries to your ISP.
+# 7. Delete all forwarding servers from dnsmasq config.
+uci set dhcp.@dnsmasq[0].port="54"
+uci set dhcp.@dnsmasq[0].domain="lan"
+uci set dhcp.@dnsmasq[0].local="/lan/"
+uci set dhcp.@dnsmasq[0].expandhosts="1"
+uci set dhcp.@dnsmasq[0].cachesize="0"
+uci set dhcp.@dnsmasq[0].noresolv="1"
+uci -q del dhcp.@dnsmasq[0].server
+ 
+# Delete existing config ready to install new options.
+uci -q del dhcp.lan.dhcp_option
+uci -q del dhcp.lan.dns
+ 
+# DHCP option 3: Specifies the gateway the DHCP server should send to DHCP clients.
+uci add_list dhcp.lan.dhcp_option='3,'"${NET_ADDR}"
+ 
+# DHCP option 6: Specifies the DNS server the DHCP server should send to DHCP clients.
+uci add_list dhcp.lan.dhcp_option='6,'"${NET_ADDR}" 
+ 
+# DHCP option 15: Specifies the domain suffix the DHCP server should send to DHCP clients.
+uci add_list dhcp.lan.dhcp_option='15,'"lan"
+ 
+# Set IPv6 Announced DNS
+uci add_list dhcp.lan.dns="$NET_ADDR6"
+ 
+uci commit dhcp
+service dnsmasq restart
+service odhcpd restart
+exit 0
+```
 
 
 

@@ -121,4 +121,23 @@ openssl req -x509 -nodes -days 397 -newkey ec:<(openssl ecparam -name prime256v1
 
 ### Resize storage on OpenWrt Raspberry Pi
 1. To resize storage on Raspberry Pi, internet access is required to download additional software.
-2. **ssh** in the openwrt device ```ssh root
+2. **ssh** in the openwrt device ```ssh root@192.168.1.2```
+3. Install the required packages
+```
+opkg update && opkg install cfdisk resize2fs tune2fs lsblk parted
+```
+4. Resize the partition:
+ - ```cfdisk /dev/mmcblk0```
+ *Now Resize the ***/dev/mmcblk0p2*** partition (enter desired space). After this write the changes and quit.*
+ - Reboot
+5. Remount root as RO (if fails, reboot and remount as ro again)
+```
+mount -o remount,ro /
+```
+6. Remove reserved GDT blocks
+```
+tune2fs -O^resize_inode /dev/mmcblk0p2
+fsck.ext4 /dev/mmcblk0p2 
+```
+(This might probably fail, doesn't seem to affect anything!)
+ - Reboot

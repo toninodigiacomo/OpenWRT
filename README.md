@@ -54,9 +54,8 @@ opkg update && opkg install openssl-util luci-app-uhttpd
 ```
 nano /etc/ssl/myconfig.conf
 ```
-<details>
-<summary>***myconfig.conf***</summary>
 
+#### myconfig.conf ####
 ```
 [req]
 distinguished_name  = req_distinguished_name
@@ -82,8 +81,6 @@ basicConstraints    = CA:true
 DNS.1               = luci.openwrt
 IP.1                = 192.168.1.1
 ```
-</details>
-
 
 3. We can edit the values for C (country), ST (state), L (location), O (organization), OU (organization unit) to whatever we want.
  - It's extremely important the values for ***CN*** and ***DNS.1*** match, and also that ***IP.1*** has the correct private IP address for the device.

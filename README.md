@@ -83,6 +83,6 @@ IP.1                = 192.168.1.1
 
 ```
 3. We can edit the values for C (country), ST (state), L (location), O (organization), OU (organization unit) to whatever we want.
-        It's extremely important the values for ***CN*** and DNS.1 match, and also that IP.1 has the correct private IP address for the device.
-        Some of you might have a different IP, or you might access it via a hostname; the hostname should go in both CN and DNS.1 fields. The correct private IP address should go into IP.1.
+        It's extremely important the values for ___CN___ and ___DNS.1___ match, and also that ___IP.1___ has the correct private IP address for the device.
+        Some of might have a different IP, or might access it via a hostname; the hostname should go in both ___CN___ and ___DNS.1___ fields. The correct private IP address should go into ___IP.1___.
 

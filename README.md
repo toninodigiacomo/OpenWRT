@@ -40,11 +40,11 @@ There are some disadvantages, though. Here are some of them.
 1. External libraries makes a bloated installation.
  - On systems with just 4 MB of flash, it's not possible to enable HTTPS for LuCI web interface. Why? Because with TLS libraries integrated, the resulting image doesn't fit 4 MB of flash.
 2. Browser warning on non-properly signed certificate.
- - Well, this is a good browser feature. Unless the self signed root CA has been imported to the browser, this warning creeps you out! Why bother with commercial CA when our need is just securing our own router management interface for our own use?
- - Of course, you we just buy a properly signed certificate for our own openwrt.lan domain and ip address to get rid of the annoying browser warning. We can also just import the self-signed root CA used for certificate creation to your browser certificate store. 
+ - Well, this is a good browser feature. Unless the self signed root CA has been imported to the browser, this warning creeps us out! Why bother with commercial CA when our need is just securing our own router management interface for our own use?
+ - Of course, we can just buy a properly signed certificate for our own openwrt.lan domain and ip address to get rid of the annoying browser warning. We can also just import the self-signed root CA used for certificate creation to browser certificate store. 
 
 ### How to get rid of LuCI HTTPS certificate warnings
-With these instructions, we can generate our own self-signed certificate, which your browser will accept as valid. 
+With these instructions, we can generate our own self-signed certificate, which browser will accept as valid. 
 One new headache was that, browsers usually only look at one key part of a self-signed certificate, the CN (common name). However, starting with Chrome version 58, it not only looks at the CN (common name) in the certificate, but also at the SAN (subject alt name or DNS name), which makes generating a certificate more complicated than before. We may have even had a certificate we made ourself, that worked until recently, stop working when Chrome 58 was released and most likely automatically updated and installed.
 
 So, to get rid of the annoying “Warning, this is an insecure site, do you want to proceed?” warning messages, and other similar messages from other browsers, we will proceed with the following.
@@ -165,7 +165,62 @@ opkg install docker
 opkg install luci-app-dockerman
 ```
 > [!NOTE]
-> This package will also install dockerd and docker-compose as dependencies. It can work with dockerd on local and remote hosts. The default folder for docker in dockerman is **/opt/docker/** so mount your storage at **/opt** or change the folder in **Docker > Overview > Docker Root Dir** then restart the dockerd service.
+> This package will also install dockerd and docker-compose as dependencies. It can work with dockerd on local and remote hosts. The default folder for docker in dockerman is **/opt/docker/** so mount the storage at **/opt** or change the folder in **Docker > Overview > Docker Root Dir** then restart the dockerd service.
+
+## AdGuard Home
+AdGuard Home (AGH) is a free and open source network-wide advertising and trackers blocking DNS server. It operates as a DNS server that re-routes tracking domains to a “black hole”, thus preventing devices from connecting to those servers. It is based on software used with public AdGuard DNS servers.
+In addition, AdGuard Home also offers DNS encryption features such as DNS over TLS (DoT) and DNS over HTTPS (DoH) built-in without any additional packages needed. 
+
+#### DNS latency/performance
+For the best performance and lowest latency on DNS requests, AGH should be the primary DNS resolver in the DNS chain. If we currently have dnsmasq or unbound installed, we should move these services to an alternative port and have AGH use DNS port 53 with upstream DNS resolvers of the choice configured. 
+This wiki recommends keeping dnsmasq/unbound as the local/PTR resolver for Reverse DNS.
+The rationale for this is due to resolvers like dnsmasq forking each DNS request when AGH is set as an upstream, this will have an impact on DNS latency which is can be viewed in the AGH dashboard. 
+We will also not benefit from being able to see the DNS requests made by each client if AGH is not the primary DNS resolver as all traffic will appear from the router.
+
+**The install script in the setup section will move dnsmasq to port 54 and set it for AGH to use as local PTR / reverse DNS lookups.**
+
+#### Flash/storage space requirements
+The compiled AdGuardHome binary has grown since the 0.107.0 release. For many routers this will be quite a significant amount of storage taken up in the overlay filesystem. In addition, features like statistics and query logging will also require further storage space when being written to the working directory. 
+For routers with less flash space, it is highly recommended to use USB or an external storage path to avoid filling up the overlay filesystem. If we have low flash space, we may want to use the custom installation method and have all of the AdGuard Home installation stored outside of the flash storage. Alternatively we can also perform an exroot configuration.
+
+Currently (May 2022 edge build 108) a full install to the /opt folder requires about **100mb** of space.
+    *(70mb) 35mb x2 for the AGH binary and again for when it backups and upgrades. (that's in the agh-backup folder)
+    20mb for filters.
+    2mb - 90 days of statistics.
+    53mb - 7 days of query logs.*
+We can tweak logging to keep things smaller if required.
+
+#### Query/statistics logging
+One of the main benefits of AGH is the detailed query and statistics data provided, however for many routers having long retention periods for this data can cause issues (see flash/storage space requirements). 
+If we are using the default tmpfs storage, we should set a relatively short retention period or disable logging altogether. If we want to have longer retention periods for query/statistics data, consider moving the storage directory to outside the routers flash space.
+
+### Installation
+Since 21.02, there is a official AdGuard Home **package** which can be installed through opkg.
+Required dependencies (ca-bundle) are automatically resolved and installed when using the official package.
+```
+opkg update && opkg install adguardhome
+```
+
+The official OpenWrt package uses the following paths and directories by default:
+    *The AdGuardHome application will be installed to ***/usr/bin/AdGuardHome***.
+    The main ***adguardhome.yaml*** configuration file is stored at ***/etc/adguardhome.yaml***.
+    The default working directory is ***/var/adguardhome*** (By default /var is a symlink to /tmp).
+    The working directory can be configured in ***/etc/config/adguardhome***
+    An ***init.d*** script is provided at ***/etc/init.d/adguardhome***.*
+    
+
+The default configured working directory will mean query logs and statistics will be lost on a reboot. To avoid this you should configure a persistent storage path such as /opt or /mnt with external storage and update the working directory accordingly.
+
+To have AdGuard Home automatically start on boot and to start the service:
+
+service adguardhome enable
+service adguardhome start
+
+
+
+
+
+
 
 ## Adding a USB Drive and Creating Samba Shares
 

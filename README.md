@@ -108,7 +108,8 @@ openssl req -x509 -nodes -days 397 -newkey ec:<(openssl ecparam -name prime256v1
  - In the field for ***HTTPS Private Key***, select the file ```/etc/ssl/mycert.key```
  - Hit save and apply.
 
-
-
-
+7. Restart ***uHTTPd***
+```
+/etc/init.d/uhttpd restart
+```
 

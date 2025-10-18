@@ -23,7 +23,7 @@ config interface 'lan'
         option broadcast '192.168.1.255'
 ```
 > [!IMPORTANT]
-> Line with option ```ipaddr '192.168.1.2'```is the important one!
+> Line with ```option ipaddr '192.168.1.2'```is the important one!
  
 ## Securing OpenWrt
 By default, OpenWrt has no password set for the default root user, and whilst on a local network that might not always be critical, it’s best to set a password and take a few steps to keep things secure.

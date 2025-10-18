@@ -95,6 +95,12 @@ IP.1                = 192.168.1.1
 ```
 openssl req -x509 -nodes -days 397 -newkey rsa:2048 -keyout mycert.key -out mycert.crt -config myconfig.conf
 ```
-
+This will create two files, ```mycert.key``` and ```mycert.crt```
+Alternatively we can create ECDSA certificate (to speedup key exchange phase) with the following command:
+```
+openssl req -x509 -nodes -days 397 -newkey ec:<(openssl ecparam -name prime256v1) -keyout mycert.key -out mycert.crt -config myconfig.conf
+```
+> [!NOTE]
+> In the commands above, the validity of the certificate was set to 13 months (397 days, the “-days” option), so the process would need to be repeated when the period lapses. Some (all) browsers do not accept longer validity: https://github.com/cabforum/servercert/blob/90a98dc7c1131eaab01af411968aa7330d315b9b/docs/BR.md?plain=1#L175
 
 
